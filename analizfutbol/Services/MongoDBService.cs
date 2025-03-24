@@ -23,6 +23,21 @@ namespace analizfutbol.Services
             _matchCollection = database.GetCollection<Match>("Matches");
         }
 
+        public async Task AddReferee(Referee referee)
+        {
+            await _refereeCollection.InsertOneAsync(referee);
+        }
+
+        public async Task AddTeam(Team team)
+        {
+            await _teamCollection.InsertOneAsync(team);
+        }
+
+        public async Task AddMatch(Match match)
+        {
+            await _matchCollection.InsertOneAsync(match);
+        }
+
         public async Task<RefereeCardStatistics> GetRefereeCardStatistics(string refereeId)
         {
             var matches = await _matchCollection
