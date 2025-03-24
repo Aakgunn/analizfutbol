@@ -1,0 +1,6 @@
+@analizfutbol_HostAddress = http://localhost:5140
+
+GET {{analizfutbol_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
