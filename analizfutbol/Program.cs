@@ -12,12 +12,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// MongoDB ayarlarını ekle
+// MongoDB ayarlarını düzgün şekilde yapılandır
 builder.Services.Configure<MongoDBSettings>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
 // MongoDB servisini ekle
 builder.Services.AddSingleton<IMongoDBService, MongoDBService>();
+
+// MongoDB ayarlarını kontrol et
+var mongoSettings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+if (string.IsNullOrEmpty(mongoSettings?.ConnectionString))
+{
+    throw new Exception("MongoDB connection string is missing or empty in configuration!");
+}
+Console.WriteLine($"MongoDB Connection String: {mongoSettings.ConnectionString}");
+Console.WriteLine($"MongoDB Database Name: {mongoSettings.DatabaseName}");
 
 var app = builder.Build();
 
@@ -34,4 +43,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+Console.WriteLine("Uygulama başlatılıyor...");
 app.Run();

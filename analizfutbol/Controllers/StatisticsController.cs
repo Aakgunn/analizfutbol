@@ -63,5 +63,120 @@ namespace analizfutbol.Controllers
             var stats = await _mongoDBService.GetTeamWinRateWithReferee(refereeId, teamId);
             return Ok(stats);
         }
+
+        [HttpPost("test/create")]
+        public async Task<IActionResult> CreateTestData()
+        {
+            try
+            {
+                Console.WriteLine("Test verisi oluşturma başladı...");
+                
+                var referee = new Referee
+                {
+                    Name = "Cüneyt Çakır",
+                    TotalMatches = 0,
+                    TotalYellowCards = 0,
+                    TotalRedCards = 0
+                };
+
+                var team = new Team
+                {
+                    Name = "Galatasaray",
+                    TotalYellowCards = 0,
+                    TotalRedCards = 0
+                };
+
+                await _mongoDBService.AddReferee(referee);
+                await _mongoDBService.AddTeam(team);
+
+                Console.WriteLine("Test verisi başarıyla oluşturuldu.");
+                
+                return Ok(new { message = "Test verisi oluşturuldu", referee, team });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Test verisi oluşturma hatası: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("referee/search")]
+        public async Task<IActionResult> SearchReferees([FromQuery] string name)
+        {
+            var referees = await _mongoDBService.SearchReferees(name);
+            return Ok(referees);
+        }
+
+        [HttpGet("matches/filter")]
+        public async Task<IActionResult> FilterMatches(
+            [FromQuery] DateTime? startDate, 
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string? refereeId,
+            [FromQuery] string? teamId)
+        {
+            var matches = await _mongoDBService.FilterMatches(startDate, endDate, refereeId, teamId);
+            return Ok(matches);
+        }
+
+        [HttpGet("referee/{refereeId}/analysis")]
+        public async Task<IActionResult> GetRefereeAnalysis(string refereeId)
+        {
+            var analysis = await _mongoDBService.GetRefereeDetailedAnalysis(refereeId);
+            return Ok(analysis);
+        }
+
+        [HttpGet("team/{teamId}/referee-history")]
+        public async Task<IActionResult> GetTeamRefereeHistory(string teamId)
+        {
+            var history = await _mongoDBService.GetTeamRefereeHistory(teamId);
+            return Ok(history);
+        }
+
+        [HttpGet("referees/compare")]
+        public async Task<IActionResult> CompareReferees([FromQuery] List<string> refereeIds)
+        {
+            var comparison = await _mongoDBService.CompareReferees(refereeIds);
+            return Ok(comparison);
+        }
+
+        [HttpGet("teams/card-comparison")]
+        public async Task<IActionResult> CompareTeamCards([FromQuery] List<string> teamIds)
+        {
+            var comparison = await _mongoDBService.CompareTeamCards(teamIds);
+            return Ok(comparison);
+        }
+
+        [HttpGet("predict/match")]
+        public async Task<IActionResult> PredictMatch(
+            [FromQuery] string homeTeamId,
+            [FromQuery] string awayTeamId,
+            [FromQuery] string refereeId)
+        {
+            try
+            {
+                var prediction = await _mongoDBService.PredictMatch(homeTeamId, awayTeamId, refereeId);
+                return Ok(prediction);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("predictions/accuracy")]
+        public async Task<IActionResult> GetPredictionAccuracy(
+            [FromQuery] DateTime startDate,
+            [FromQuery] DateTime endDate)
+        {
+            try
+            {
+                var accuracy = await _mongoDBService.GetPastPredictionAccuracy(startDate, endDate);
+                return Ok(accuracy);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
     }
 } 
