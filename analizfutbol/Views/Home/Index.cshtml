@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="site-header text-center">
+    <div class="container">
+        <h1 class="display-4">Futbol Analiz Platformu</h1>
+        <p class="lead">Hakem ve takım istatistikleri, analizler ve tahminler</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Hakemler Kartı -->
+        <div class="col-md-6">
+            <div class="feature-card">
+                <h2>Hakemler</h2>
+                <p>Hakem istatistikleri ve performans analizleri</p>
+                <a href="@Url.Action("Index", "Referee")" class="btn btn-custom">
+                    <i class="fas fa-user-tie me-2"></i>Hakem İstatistikleri
+                </a>
+            </div>
+        </div>
+
+        <!-- Takımlar Kartı -->
+        <div class="col-md-6">
+            <div class="feature-card">
+                <h2>Takımlar</h2>
+                <p>Takım istatistikleri ve kart analizleri</p>
+                <a href="@Url.Action("Index", "Team")" class="btn btn-custom">
+                    <i class="fas fa-futbol me-2"></i>Takım İstatistikleri
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Haberler Bölümü -->
+    <div class="news-section">
+        <h2 class="news-header">Son Haberler</h2>
+        
+        <div class="row">
+            <!-- Hakem Haberleri -->
+            <div class="col-md-6">
+                <h3>Hakem Haberleri</h3>
+                <div class="news-item">
+                    <h5>Halil Umut Meler'in yönettiği maçta kart rekoru</h5>
+                    <span class="news-time">2 saat önce</span>
+                </div>
+                <div class="news-item">
+                    <h5>Ali Palabıyık'ın performansı dikkat çekti</h5>
+                    <span class="news-time">5 saat önce</span>
+                </div>
+                <div class="news-item">
+                    <h5>Cüneyt Çakır'dan önemli açıklamalar</h5>
+                    <span class="news-time">8 saat önce</span>
+                </div>
+            </div>
+
+            <!-- Takım Haberleri -->
+            <div class="col-md-6">
+                <h3>Takım Haberleri</h3>
+                <div class="news-item">
+                    <h5>Galatasaray'ın kart istatistikleri açıklandı</h5>
+                    <span class="news-time">1 saat önce</span>
+                </div>
+                <div class="news-item">
+                    <h5>Fenerbahçe'nin hakem karşılaşmaları analizi</h5>
+                    <span class="news-time">4 saat önce</span>
+                </div>
+                <div class="news-item">
+                    <h5>Beşiktaş'ın son 5 maçtaki kart ortalaması</h5>
+                    <span class="news-time">6 saat önce</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
